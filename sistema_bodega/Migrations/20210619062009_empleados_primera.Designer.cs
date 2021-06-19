@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sistema_bodega.Data;
 
 namespace sistema_bodega.Migrations
 {
     [DbContext(typeof(BaseDatos))]
-    partial class BaseDatosModelSnapshot : ModelSnapshot
+    [Migration("20210619062009_empleados_primera")]
+    partial class empleados_primera
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
