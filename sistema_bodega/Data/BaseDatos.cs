@@ -9,6 +9,7 @@ namespace sistema_bodega.Data
     {
         public DbSet<Bodega> Bodegas { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
+        public DbSet<Producto> Productos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
