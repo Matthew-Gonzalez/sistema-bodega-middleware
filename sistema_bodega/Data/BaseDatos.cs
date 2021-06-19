@@ -7,6 +7,7 @@ namespace sistema_bodega.Data
     /// </summary>
     public class BaseDatos : DbContext
     {
+        public DbSet<Bodega> Bodegas { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=SistemaBodega;Integrated Security=true");
