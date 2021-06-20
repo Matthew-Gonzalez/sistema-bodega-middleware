@@ -13,7 +13,7 @@
     <form method="POST">
         <p>@Model.Bodega.Ciudad</p>
         <p>Producto: <select name="id_producto" asp-items="Model.Productos"></select></p>
-        <p>Cantidad: <input type="number" name="cantidad"></p>
+        <p>Cantidad: <input type="number" min="1" value="1" name="cantidad"></p>
         <p><input type="submit" value="Almacenar Producto"></p>
     </form>
     <p>
