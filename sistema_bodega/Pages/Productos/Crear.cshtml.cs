@@ -20,7 +20,7 @@ namespace sistema_bodega.Pages.Productos
         /// </summary>
         /// <param name="nombre">El nombre del producto</param>
         /// <param name="umbral">El umbral de stock critico del producto</param>
-        public IActionResult OnPost(string nombre, int umbral)
+        public void OnPost(string nombre, int umbral)
         {
             BaseDatos baseDatos = new BaseDatos();
             Producto producto = new Producto();
@@ -30,8 +30,6 @@ namespace sistema_bodega.Pages.Productos
 
             baseDatos.Productos.Add(producto);
             baseDatos.SaveChanges();
-
-            return RedirectToPage("./Index");
         }
     }
 }

@@ -10,9 +10,12 @@
     <h1 class="display-4">Crear Producto</h1>
 </div>
 <div>
-    <form asp-page="NuevoProducto" method="POST">
+    <form method="POST">
         <p>Nombre: <input type="text" name="nombre"></p>
         <p>Umbral: <input type="number" name="umbral"></p>
         <p><input type="submit" value="Crear Producto"></p>
     </form>
+    <p>
+        <a asp-page="./Index">Volver</a>
+    </p>
 </div>
