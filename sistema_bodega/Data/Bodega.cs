@@ -7,5 +7,6 @@ namespace sistema_bodega.Data
         public int Id { get; set; }
         public string Ciudad { get; set; }
         public List<ProductoBodega> ProductoBodegas { get; set; }
+        public List<ProductoBodegaEmpleado> ProductoBodegaEmpleados { get; set; }
     }
 }
