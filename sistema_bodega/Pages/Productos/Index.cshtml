@@ -24,42 +24,50 @@
     @if (Model.BodegaId == 0)
     {
         <table class="table">
-            <tr>
-                <td>ID</td>
-                <td>Nombre</td>
-                <td>Stock</td>
-                <td>Estado Stock</td>
-            </tr>
-            @foreach (TempProducto temp in Model.TempProductos)
-            {
+            <thead class="table-dark">
                 <tr>
-                    <td>@temp.Producto.Id</td>
-                    <td>@temp.Producto.Nombre</td>
-                    <td>@temp.Stock</td>
-                    @if (temp.Stock < temp.Producto.Umbral)
-                    {
-                        <td>INSUFICIENTE</td>
-                    }
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Estado Stock</th>
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (TempProducto temp in Model.TempProductos)
+                {
+                    <tr>
+                        <th scope="row">@temp.Producto.Id</th>
+                        <td>@temp.Producto.Nombre</td>
+                        <td>@temp.Stock</td>
+                        @if (temp.Stock < temp.Producto.Umbral)
+                        {
+                            <td>INSUFICIENTE</td>
+                        }
+                    </tr>
+                }
+            </tbody>
         </table>
     }
     else
     {
         <table class="table">
-            <tr>
-                <td>ID</td>
-                <td>Nombre</td>
-                <td>Stock</td>
-            </tr>
-            @foreach (ProductoBodega productoBodega in Model.ProductosBodegas)
-            {
+            <thead class="table-dark">
                 <tr>
-                    <td>@productoBodega.Producto.Id</td>
-                    <td>@productoBodega.Producto.Nombre</td>
-                    <td>@productoBodega.Cantidad</td>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Stock</th>
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (ProductoBodega productoBodega in Model.ProductosBodegas)
+                {
+                    <tr>
+                        <th scope="row">@productoBodega.Producto.Id</th>
+                        <td>@productoBodega.Producto.Nombre</td>
+                        <td>@productoBodega.Cantidad</td>
+                    </tr>
+                }
+            </tbody>
         </table>
     }
 </div>
