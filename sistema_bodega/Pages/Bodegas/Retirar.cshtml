@@ -1,0 +1,24 @@
+@page
+@model RetirarModel
+@using Data
+
+@{
+    ViewData["Title"] = "Bodegas";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Retirar Producto</h1>
+</div>
+<div>
+    <form method="POST">
+        <p>@Model.Bodega.Ciudad</p>
+        <p>Fecha: <input type="datetime-local" name="fecha"></p>
+        <p>Empleado: <select name="id_empleado" asp-items="Model.Empleados"></select></p>
+        <p>Producto: <select name="id_producto" asp-items="Model.Productos"></select></p>
+        <p>Cantidad: <input type="number" min="1" value="1" name="cantidad"></p>
+        <p><input type="submit" value="Retirar Producto"></p>
+    </form>
+    <p>
+        <a asp-page="./Index">Volver</a>
+    </p>
+</div>
