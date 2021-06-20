@@ -19,7 +19,7 @@ namespace sistema_bodega.Pages.Bodegas
         // Bodega donde se almacenara el producto
         [BindProperty]
         public Bodega Bodega { get; set; }
-        // ID del producto que se va a almacenar
+        // Lista de productos a elegir
         public SelectList Productos { get; set; }
 
         /// <summary>
