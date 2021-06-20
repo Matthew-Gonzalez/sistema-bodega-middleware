@@ -1,0 +1,22 @@
+@page
+@model AlmacenarModel
+@using Data
+
+@{
+    ViewData["Title"] = "Bodegas";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Almacenar Producto</h1>
+</div>
+<div>
+    <form method="POST">
+        <p>@Model.Bodega.Ciudad</p>
+        <p>Producto: <select name="id_producto" asp-items="Model.Productos"></select></p>
+        <p>Cantidad: <input type="number" name="cantidad"></p>
+        <p><input type="submit" value="Almacenar Producto"></p>
+    </form>
+    <p>
+        <a asp-page="./Index">Volver</a>
+    </p>
+</div>
