@@ -11,6 +11,9 @@ using sistema_bodega.Data;
 
 namespace sistema_bodega.Pages.Bodegas
 {
+    /// <summary>
+    /// Mode de la vista Almacenar de las bodegas
+    /// </summary>
     public class AlmacenarModel : PageModel
     {
         // Bodega donde se almacenara el producto
