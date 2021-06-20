@@ -11,7 +11,7 @@ using sistema_bodega.Data;
 namespace sistema_bodega.Pages.Productos
 {
     /// <summary>
-    /// Permite crear un producto en la base de datos
+    /// Modelo de la vista Crear de los productos
     /// </summary>
     public class CrearModel : PageModel
     {
