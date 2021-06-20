@@ -22,12 +22,17 @@ namespace sistema_bodega.Pages.Productos
         /// <param name="umbral">El umbral de stock critico del producto</param>
         public void OnPost(string nombre, int umbral)
         {
+            // Se establece conexion con la base de datos
             BaseDatos baseDatos = new BaseDatos();
+
+            // Se crea un producto nuevo
             Producto producto = new Producto();
 
+            // Se da un valor a los atributos del producto
             producto.Nombre = nombre;
             producto.Umbral = umbral;
 
+            // Se agrega el producto a la base de datos y se guardan los cambios
             baseDatos.Productos.Add(producto);
             baseDatos.SaveChanges();
         }
