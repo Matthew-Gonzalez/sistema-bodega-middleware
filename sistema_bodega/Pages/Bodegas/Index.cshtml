@@ -1,0 +1,35 @@
+@page
+@model IndexModel
+@using Data
+
+@{
+    ViewData["Title"] = "Bodegas";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bodegas</h1>
+</div>
+<div>
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Ciudad</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Bodega bodega in Model.Bodegas)
+            {
+                <tr>
+                    <th scope="row">@bodega.Id</th>
+                    <td>@bodega.Ciudad</td>
+                    <td>
+                        <a asp-page="./Almacenar" asp-route-id="@bodega.Id">Almacenar</a>
+                        <a asp-page="./Retirar" asp-route-id="@bodega.Id">Retirar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
