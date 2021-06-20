@@ -45,7 +45,7 @@ namespace sistema_bodega.Pages.Retiros
                 .Include(pbe => pbe.Bodega)
                 .Include(pbe => pbe.Producto)
                 .Include(pbe => pbe.Empleado)
-                .OrderBy(pbe => pbe.Fecha).ToList();
+                .OrderByDescending(pbe => pbe.Fecha).ToList();
 
             // Creamos la lista de bodegas para filtrar
             Bodegas = new SelectList(baseDatos.Bodegas, nameof(Bodega.Id), nameof(Bodega.Ciudad));
