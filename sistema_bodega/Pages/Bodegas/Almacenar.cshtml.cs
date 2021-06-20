@@ -38,7 +38,9 @@ namespace sistema_bodega.Pages.Bodegas
             BaseDatos baseDatos = new BaseDatos();
 
             // Obtenemos la bodega
-            Bodega = baseDatos.Bodegas.FirstOrDefault(b => b.Id == id);
+            Bodega = baseDatos.Bodegas
+                .Where(b => b.Id == id)
+                .FirstOrDefault();
 
             // Si la bodega con el id dado no existe
             if (Bodega == null)
