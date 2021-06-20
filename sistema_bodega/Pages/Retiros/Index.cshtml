@@ -1,0 +1,51 @@
+@page
+@model IndexModel
+@using Data
+
+@{
+    ViewData["Title"] = "Retiros";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Retiros</h1>
+</div>
+<div>
+    <p>
+        <a asp-page="../Bodegas/Index">Realizar Retiro</a>
+    </p>
+    <form>
+        <p>
+            <select asp-for="BodegaId" asp-items="Model.Bodegas">
+                <option value="">Seleccione una bodega</option>
+            </select>
+            <select asp-for="ProductoId" asp-items="Model.Productos">
+                <option value="">Seleccione un producto</option>
+            </select>
+            <select asp-for="EmpleadoId" asp-items="Model.Empleados">
+                <option value="">Seleccione un empleado</option>
+            </select>
+            <input type="submit" value="Filtrar" />
+        </p>
+    </form>
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Bodega</th>
+                <th scope="col">Empleado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ProductoBodegaEmpleado retiro in Model.ProductosBodegasEmpleados)
+            {
+                <tr>
+                    <th scope="row">@retiro.Fecha</th>
+                    <td>@retiro.Producto.Nombre</td>
+                    <td>@retiro.Bodega.Ciudad</td>
+                    <td>@retiro.Empleado.Rut - @retiro.Empleado.Nombre</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
