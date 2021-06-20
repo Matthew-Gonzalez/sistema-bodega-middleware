@@ -1,0 +1,65 @@
+@page
+@model IndexModel
+@using Data
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Productos</h1>
+</div>
+<div>
+    <p>
+        <a asp-page="./Crear">Crear Producto</a>
+    </p>
+    <form>
+        <p>
+            <select asp-for="BodegaId" asp-items="Model.Bodegas">
+                <option value="">Seleccione una bodega</option>
+            </select>
+            <input type="submit" value="Filtrar" />
+        </p>
+    </form>
+    @if (Model.BodegaId == 0)
+    {
+        <table class="table">
+            <tr>
+                <td>ID</td>
+                <td>Nombre</td>
+                <td>Stock</td>
+                <td>Estado Stock</td>
+            </tr>
+            @foreach (TempProducto temp in Model.TempProductos)
+            {
+                <tr>
+                    <td>@temp.Producto.Id</td>
+                    <td>@temp.Producto.Nombre</td>
+                    <td>@temp.Stock</td>
+                    @if (temp.Stock < temp.Producto.Umbral)
+                    {
+                        <td>INSUFICIENTE</td>
+                    }
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <table class="table">
+            <tr>
+                <td>ID</td>
+                <td>Nombre</td>
+                <td>Stock</td>
+            </tr>
+            @foreach (ProductoBodega productoBodega in Model.ProductosBodegas)
+            {
+                <tr>
+                    <td>@productoBodega.Producto.Id</td>
+                    <td>@productoBodega.Producto.Nombre</td>
+                    <td>@productoBodega.Cantidad</td>
+                </tr>
+            }
+        </table>
+    }
+</div>
