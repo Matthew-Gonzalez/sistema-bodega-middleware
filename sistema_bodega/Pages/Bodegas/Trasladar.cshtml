@@ -1,5 +1,5 @@
 @page
-@model RetirarModel
+@model TrasladarModel
 @using Data
 
 @{
@@ -8,4 +8,16 @@
 
 <div class="text-center">
     <h1 class="display-4">Trasladar Productos</h1>
+</div>
+<div>
+    <form method="POST">
+        <p>Bodega Origen: @Model.Bodega.Ciudad</p>
+        <p>Bodega Destino: <select name="id_bodega" asp-items="Model.Bodegas"></select></p>
+        <p>Producto: <select name="id_producto" asp-items="Model.Productos"></select></p>
+        <p>Cantidad: <input type="number" min="1" value="1" name="cantidad"></p>
+        <p><input type="submit" value="Trasladar Producto"></p>
+    </form>
+    <p>
+        <a asp-page="./Index">Volver</a>
+    </p>
 </div>
