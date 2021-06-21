@@ -33,6 +33,7 @@
                 <th scope="col">Fecha</th>
                 <th scope="col">Producto</th>
                 <th scope="col">Bodega</th>
+                <th scope="col">Cantidad</th>
                 <th scope="col">Empleado</th>
             </tr>
         </thead>
@@ -43,6 +44,7 @@
                     <th scope="row">@retiro.Fecha</th>
                     <td>@retiro.Producto.Nombre</td>
                     <td>@retiro.Bodega.Ciudad</td>
+                    <td>@retiro.Cantidad</td>
                     <td>@retiro.Empleado.Rut - @retiro.Empleado.Nombre</td>
                 </tr>
             }
