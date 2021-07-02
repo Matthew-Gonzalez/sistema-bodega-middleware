@@ -13,6 +13,9 @@ namespace sistema_bodega.Pages.Bodegas
 {
     public class TrasladarModel : PageModel
     {
+        // Conexion a la base de datos
+        private readonly BaseDatos _baseDatos;
+
         // Bodega desde la cual trasladaremos los productos
         [BindProperty]
         public Bodega Bodega { get; set; }
@@ -20,6 +23,11 @@ namespace sistema_bodega.Pages.Bodegas
         public SelectList Bodegas { get; set; }
         // Lista de productos a escoger
         public SelectList Productos { get; set; }
+
+        public TrasladarModel(BaseDatos baseDatos)
+        {
+            _baseDatos = baseDatos;
+        }
 
         public IActionResult OnGet(int? id)
         {
@@ -29,11 +37,8 @@ namespace sistema_bodega.Pages.Bodegas
                 return NotFound();
             }
 
-            // Se establece conexion con la base de datos
-            BaseDatos baseDatos = new BaseDatos();
-
             // Se obtiene la bodega
-            Bodega = baseDatos.Bodegas
+            Bodega = _baseDatos.Bodegas
                 .Where(b => b.Id == id)
                 .FirstOrDefault();
 
@@ -44,12 +49,12 @@ namespace sistema_bodega.Pages.Bodegas
             }
 
             // Se crea una lista con las bodegas
-            Bodegas = new SelectList(baseDatos.Bodegas
+            Bodegas = new SelectList(_baseDatos.Bodegas
                 .Where(b => b.Id != id),
                  nameof(Bodega.Id), nameof(Bodega.Ciudad));
 
             // Se crea una lista con los productos que tengan existencias en la bodega
-            Productos = new SelectList(baseDatos.ProductosBodegas
+            Productos = new SelectList(_baseDatos.ProductosBodegas
                 .Include(pb => pb.Producto)
                 .Where(pb => pb.BodegaId == id && pb.Cantidad > 0)
                 .Select(p => new
@@ -65,11 +70,8 @@ namespace sistema_bodega.Pages.Bodegas
 
         public IActionResult OnPost(int id_bodega, int id_producto, int cantidad)
         {
-            // Se establece conexion con la base de datos
-            BaseDatos baseDatos = new BaseDatos();
-
             // Se obtiene la relacion ProductoBodega de la bodega de origen
-            ProductoBodega productoBodegaOrigen = baseDatos.ProductosBodegas
+            ProductoBodega productoBodegaOrigen = _baseDatos.ProductosBodegas
                 .Where(pb => pb.ProductoId == id_producto && pb.BodegaId == Bodega.Id)
                 .FirstOrDefault();
 
@@ -83,11 +85,11 @@ namespace sistema_bodega.Pages.Bodegas
             productoBodegaOrigen.Cantidad -= cantidad;
 
             // Se guardan los cambios y se da espacio a la siguiente entidad
-            baseDatos.SaveChanges();
-            baseDatos.Entry(productoBodegaOrigen).State = EntityState.Detached;
+            _baseDatos.SaveChanges();
+            _baseDatos.Entry(productoBodegaOrigen).State = EntityState.Detached;
 
             // Se obtiene la relacion ProductoBodega de la bodega de destino
-            ProductoBodega productoBodegaDestino = baseDatos.ProductosBodegas
+            ProductoBodega productoBodegaDestino = _baseDatos.ProductosBodegas
                 .Where(pb => pb.ProductoId == id_producto && pb.BodegaId == id_bodega)
                 .FirstOrDefault();
 
@@ -107,11 +109,11 @@ namespace sistema_bodega.Pages.Bodegas
                 productoBodegaDestino.Cantidad = cantidad;
 
                 // Se guarda la relacion en la base de datos
-                baseDatos.ProductosBodegas.Add(productoBodegaDestino);
+                _baseDatos.ProductosBodegas.Add(productoBodegaDestino);
             }
 
             // Se guardan los cambios en la base de datos
-            baseDatos.SaveChanges();
+            _baseDatos.SaveChanges();
 
             // Se refresca la pagina con el id de la bodega
             return RedirectToPage("./Trasladar", new

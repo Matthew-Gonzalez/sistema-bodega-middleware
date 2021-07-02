@@ -16,6 +16,9 @@ namespace sistema_bodega.Pages.Bodegas
     /// </summary>
     public class RetirarModel : PageModel
     {
+        // Conexion a la base de datos
+        private readonly BaseDatos _baseDatos;
+
         // Bodega desde la cual se va a retirar el producto
         [BindProperty]
         public Bodega Bodega { get; set; }
@@ -23,6 +26,11 @@ namespace sistema_bodega.Pages.Bodegas
         public SelectList Productos { get; set; }
         // Lista de empleados a elegir
         public SelectList Empleados { get; set; }
+
+        public RetirarModel(BaseDatos baseDatos)
+        {
+            _baseDatos = baseDatos;
+        }
 
         public IActionResult OnGet(int? id)
         {
@@ -32,11 +40,8 @@ namespace sistema_bodega.Pages.Bodegas
                 return NotFound();
             }
 
-            // Se establece conexion con la base de datos
-            BaseDatos baseDatos = new BaseDatos();
-
             // Se obtiene la bodega
-            Bodega = baseDatos.Bodegas
+            Bodega = _baseDatos.Bodegas
                 .Where(b => b.Id == id)
                 .FirstOrDefault();
 
@@ -47,7 +52,7 @@ namespace sistema_bodega.Pages.Bodegas
             }
 
             // Se crea una lista con los productos que tengan existencias en la bodega
-            Productos = new SelectList(baseDatos.ProductosBodegas
+            Productos = new SelectList(_baseDatos.ProductosBodegas
                 .Include(pb => pb.Producto)
                 .Where(pb => pb.BodegaId == id && pb.Cantidad > 0)
                 .Select(p => new
@@ -58,7 +63,7 @@ namespace sistema_bodega.Pages.Bodegas
                 , "Id", "Nombre");
 
             // Se crea una lista con los empleados
-            Empleados = new SelectList(baseDatos.Empleados
+            Empleados = new SelectList(_baseDatos.Empleados
                 .Select(e => new
                 {
                     Id = e.Id,
@@ -72,11 +77,8 @@ namespace sistema_bodega.Pages.Bodegas
 
         public IActionResult OnPost(DateTime fecha, int id_empleado, int id_producto, int cantidad)
         {
-            // Se establece conexion con la base de datos
-            BaseDatos baseDatos = new BaseDatos();
-
             // Se busca una relacion ProductoBodega ya existente
-            ProductoBodega productoBodega = baseDatos.ProductosBodegas
+            ProductoBodega productoBodega = _baseDatos.ProductosBodegas
                 .Where(pb => pb.ProductoId == id_producto && pb.BodegaId == Bodega.Id)
                 .FirstOrDefault();
 
@@ -103,8 +105,8 @@ namespace sistema_bodega.Pages.Bodegas
             productoBodegaEmpleado.Fecha = fecha;
 
             // Se agrega la entidad a la base de datos y se guardan los cambios
-            baseDatos.ProductosBodegasEmpleados.Add(productoBodegaEmpleado);
-            baseDatos.SaveChanges();
+            _baseDatos.ProductosBodegasEmpleados.Add(productoBodegaEmpleado);
+            _baseDatos.SaveChanges();
 
             // Se refresca la pagina con el id de la bodega
             return RedirectToPage("./Retirar", new { id = Bodega.Id });

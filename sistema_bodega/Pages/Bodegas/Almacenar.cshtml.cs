@@ -16,11 +16,19 @@ namespace sistema_bodega.Pages.Bodegas
     /// </summary>
     public class AlmacenarModel : PageModel
     {
+        // Conexion a la base de datos
+        private readonly BaseDatos _baseDatos;
+
         // Bodega donde se almacenara el producto
         [BindProperty]
         public Bodega Bodega { get; set; }
         // Lista de productos a elegir
         public SelectList Productos { get; set; }
+
+        public AlmacenarModel(BaseDatos baseDatos)
+        {
+            _baseDatos = baseDatos;
+        }
 
         /// <summary>
         /// Recibe la id de la bodega en la que se almacenara el producto
@@ -34,11 +42,8 @@ namespace sistema_bodega.Pages.Bodegas
                 return NotFound();
             }
 
-            // Se establece conexion con la base de datos
-            BaseDatos baseDatos = new BaseDatos();
-
             // Obtenemos la bodega
-            Bodega = baseDatos.Bodegas
+            Bodega = _baseDatos.Bodegas
                 .Where(b => b.Id == id)
                 .FirstOrDefault();
 
@@ -49,7 +54,7 @@ namespace sistema_bodega.Pages.Bodegas
             }
 
             // Se crea la lista con los productos
-            Productos = new SelectList(baseDatos.Productos, nameof(Producto.Id), nameof(Producto.Nombre));
+            Productos = new SelectList(_baseDatos.Productos, nameof(Producto.Id), nameof(Producto.Nombre));
 
             // Se carga la pagina
             return Page();
@@ -57,11 +62,8 @@ namespace sistema_bodega.Pages.Bodegas
 
         public IActionResult OnPost(int id_producto, int cantidad)
         {
-            // Se establece conexion con la base de datos
-            BaseDatos baseDatos = new BaseDatos();
-
             // Se busca una relacion ProductoBodega ya existente
-            ProductoBodega productoBodega = baseDatos.ProductosBodegas
+            ProductoBodega productoBodega = _baseDatos.ProductosBodegas
                 .Where(pb => pb.ProductoId == id_producto && pb.BodegaId == Bodega.Id)
                 .FirstOrDefault();
 
@@ -81,11 +83,11 @@ namespace sistema_bodega.Pages.Bodegas
                 productoBodega.Cantidad = cantidad;
 
                 // Se guarda la relacion en la base de datos
-                baseDatos.ProductosBodegas.Add(productoBodega);
+                _baseDatos.ProductosBodegas.Add(productoBodega);
             }
 
             // Se guardan los cambios
-            baseDatos.SaveChanges();
+            _baseDatos.SaveChanges();
 
             // Se refresca la pagina con el id de la bodega
             return RedirectToPage("./Almacenar", new { id = Bodega.Id });

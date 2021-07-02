@@ -15,16 +15,20 @@ namespace sistema_bodega.Pages.Bodegas
     /// </summary>
     public class IndexModel : PageModel
     {
+        // Conexion a la base de datos
+        private readonly BaseDatos _baseDatos;
         // Bodegas a listar
         public List<Bodega> Bodegas { get; set; }
 
+        public IndexModel(BaseDatos baseDatos)
+        {
+            _baseDatos = baseDatos;
+        }
+
         public void OnGet()
         {
-            // Establecemos conexion con la base de datos
-            BaseDatos baseDatos = new BaseDatos();
-
             // Obtenemos de la base de datos la lista de bodegas
-            Bodegas = baseDatos.Bodegas.ToList();
+            Bodegas = _baseDatos.Bodegas.ToList();
         }
     }
 }
