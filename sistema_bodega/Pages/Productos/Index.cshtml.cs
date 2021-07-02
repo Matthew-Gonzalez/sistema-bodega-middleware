@@ -16,6 +16,9 @@ namespace sistema_bodega.Pages.Productos
     /// </summary>
     public class IndexModel : PageModel
     {
+        // Conexion a la base de datos
+        private readonly BaseDatos _baseDatos;
+
         // Productos a listar
         public List<Producto> Productos { get; set; }
         // Para filtrar los productos y obtener su stock total
@@ -29,30 +32,31 @@ namespace sistema_bodega.Pages.Productos
         // Lista con todas las bodegas
         public SelectList Bodegas { get; set; }
 
+        public IndexModel(BaseDatos baseDatos)
+        {
+            _baseDatos = baseDatos;
+        }
 
         public void OnGet()
         {
-            // Establecemos conexion con la base de datos
-            BaseDatos baseDatos = new BaseDatos();
-
             // Obtenemos de la base de datos las colecciones con las que vamos a trabajar
-            Productos = baseDatos.Productos.ToList();
-            Bodegas = new SelectList(baseDatos.Bodegas, nameof(Bodega.Id), nameof(Bodega.Ciudad));
+            Productos = _baseDatos.Productos.ToList();
+            Bodegas = new SelectList(_baseDatos.Bodegas, nameof(Bodega.Id), nameof(Bodega.Ciudad));
 
             // Verificamos si debemos filtrar por bodega
             if (BodegaId > 0)
             {
                 // Obtenemos los productos de la base de datos a traves de la relacion ProductoBodega para filtrarlos por bodega
-                ProductosBodegas = baseDatos.ProductosBodegas
+                ProductosBodegas = _baseDatos.ProductosBodegas
                     .Where(pb => pb.BodegaId == BodegaId)
                     .Include(pb => pb.Bodega).ToList();
             }
             else
             {
                 // Obtenemos los productos de la base de datos
-                List<Producto> productos = baseDatos.Productos.ToList();
+                List<Producto> productos = _baseDatos.Productos.ToList();
                 // Obtenemos las relaciones ProductoBodega para calcular el stock total
-                List<ProductoBodega> productosBodegas = baseDatos.ProductosBodegas.ToList();
+                List<ProductoBodega> productosBodegas = _baseDatos.ProductosBodegas.ToList();
 
                 // Creamos y poblamos una lista que una al producto y su stock
                 TempProductos = new List<TempProducto>();

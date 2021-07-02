@@ -67,7 +67,7 @@ namespace sistema_bodega.Pages.Bodegas
                 .Select(e => new
                 {
                     Id = e.Id,
-                    RutNombre = e.Rut + " - " + e.Nombre
+                    RutNombre = string.Concat(e.Rut, " | ", e.Nombre)
                 })
                 , "Id", "RutNombre");
 

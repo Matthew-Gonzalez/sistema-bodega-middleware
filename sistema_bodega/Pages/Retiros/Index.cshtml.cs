@@ -16,6 +16,9 @@ namespace sistema_bodega.Pages.Retiros
     /// </summary>
     public class IndexModel : PageModel
     {
+        // Conexion a la base de datos
+        private readonly BaseDatos _baseDatos;
+
         // Lista de retiros a listar
         public List<ProductoBodegaEmpleado> ProductosBodegasEmpleados { get; set; }
 
@@ -35,30 +38,32 @@ namespace sistema_bodega.Pages.Retiros
         // Lista de empleados para filtrar
         public SelectList Empleados { get; set; }
 
+        public IndexModel(BaseDatos baseDatos)
+        {
+            _baseDatos = baseDatos;
+        }
+
         public void OnGet()
         {
-            // Establecemos conexion con la base de datos
-            BaseDatos baseDatos = new BaseDatos();
-
             // Obtenemos una primera lista de retiros incluyendo los objetos Bodega, Producto y Empleado
-            ProductosBodegasEmpleados = baseDatos.ProductosBodegasEmpleados
+            ProductosBodegasEmpleados = _baseDatos.ProductosBodegasEmpleados
                 .Include(pbe => pbe.Bodega)
                 .Include(pbe => pbe.Producto)
                 .Include(pbe => pbe.Empleado)
                 .OrderByDescending(pbe => pbe.Fecha).ToList();
 
             // Creamos la lista de bodegas para filtrar
-            Bodegas = new SelectList(baseDatos.Bodegas, nameof(Bodega.Id), nameof(Bodega.Ciudad));
+            Bodegas = new SelectList(_baseDatos.Bodegas, nameof(Bodega.Id), nameof(Bodega.Ciudad));
 
             // Creamos la lista de productos para filtrar
-            Productos = new SelectList(baseDatos.Productos, nameof(Producto.Id), nameof(Producto.Nombre));
+            Productos = new SelectList(_baseDatos.Productos, nameof(Producto.Id), nameof(Producto.Nombre));
 
             // Se crea una lista con los empleados
-            Empleados = new SelectList(baseDatos.Empleados
+            Empleados = new SelectList(_baseDatos.Empleados
                 .Select(e => new
                 {
                     Id = e.Id,
-                    RutNombre = e.Rut + " - " + e.Nombre
+                    RutNombre = string.Concat(e.Rut, " | ", e.Nombre)
                 })
                 , "Id", "RutNombre");
 

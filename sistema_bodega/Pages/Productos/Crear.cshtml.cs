@@ -15,6 +15,14 @@ namespace sistema_bodega.Pages.Productos
     /// </summary>
     public class CrearModel : PageModel
     {
+        // Conexion a la base de datos
+        private readonly BaseDatos _baseDatos;
+
+        public CrearModel(BaseDatos baseDatos)
+        {
+            _baseDatos = baseDatos;
+        }
+
         /// <summary>
         /// Procesa la solicitud de crear un producto en la base de datos
         /// </summary>
@@ -22,9 +30,6 @@ namespace sistema_bodega.Pages.Productos
         /// <param name="umbral">El umbral de stock critico del producto</param>
         public void OnPost(string nombre, int umbral)
         {
-            // Se establece conexion con la base de datos
-            BaseDatos baseDatos = new BaseDatos();
-
             // Se crea un producto nuevo
             Producto producto = new Producto();
 
@@ -33,8 +38,8 @@ namespace sistema_bodega.Pages.Productos
             producto.Umbral = umbral;
 
             // Se agrega el producto a la base de datos y se guardan los cambios
-            baseDatos.Productos.Add(producto);
-            baseDatos.SaveChanges();
+            _baseDatos.Productos.Add(producto);
+            _baseDatos.SaveChanges();
         }
     }
 }
