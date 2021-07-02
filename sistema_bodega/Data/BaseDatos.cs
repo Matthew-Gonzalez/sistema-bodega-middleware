@@ -13,7 +13,7 @@ namespace sistema_bodega.Data
         /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=SistemaBodega;Integrated Security=true");
+            optionsBuilder.UseMySQL("server=localhost;port=3306;database=SistemaBodega;user=root;password=eldiegoselacome1;");
         }
 
         /// <summary>
