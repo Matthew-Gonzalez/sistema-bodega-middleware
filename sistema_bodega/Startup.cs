@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 using sistema_bodega.Data;
 
 namespace sistema_bodega
@@ -25,7 +26,7 @@ namespace sistema_bodega
         public void ConfigureServices(IServiceCollection services)
         {
             // Para compartir la misma instancia la base de datos
-            services.AddDbContext<BaseDatos>();
+            services.AddDbContext<BaseDatos>(options => options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
             services.AddRazorPages();
         }
 

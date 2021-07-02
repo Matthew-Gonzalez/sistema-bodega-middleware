@@ -7,14 +7,7 @@ namespace sistema_bodega.Data
     /// </summary>
     public class BaseDatos : DbContext
     {
-        /// <summary>
-        /// Define la conexion a la base de datos
-        /// </summary>
-        /// <param name="optionsBuilder"></param>
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseMySQL("server=localhost;port=3306;database=SistemaBodega;user=root;password=eldiegoselacome1;");
-        }
+        public BaseDatos(DbContextOptions<BaseDatos> options) : base(options) { }
 
         /// <summary>
         /// Configura las relaciones n:n y n:n:n
